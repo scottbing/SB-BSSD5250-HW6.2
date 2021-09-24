@@ -14,6 +14,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import java.lang.Math.round
+import java.security.AccessController.getContext
+import android.view.Gravity
+
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,14 +26,26 @@ class MainActivity : AppCompatActivity() {
     private var mothAnimation: AnimationDrawable? = null
     private var birdAnimation: AnimationDrawable? = null
     private var monkeyAnimation: AnimationDrawable? = null
+    private var catAnimation: AnimationDrawable? = null
+    private var foxAnimation: AnimationDrawable? = null
+    private var deerAnimation: AnimationDrawable? = null
+    private var whiteCatAnimation: AnimationDrawable? = null
     private var bugMover: ObjectAnimator? = null
     private var mothMover: ObjectAnimator? = null
     private var birdMover: ObjectAnimator? = null
     private var monkeyMover: ObjectAnimator? = null
+    private var catMover: ObjectAnimator? = null
+    private var foxMover: ObjectAnimator? = null
+    private var deerMover: ObjectAnimator? = null
+    private var whiteCatMover: ObjectAnimator? = null
     private var bugView: ImageView? = null
     private var mothView: ImageView? = null
     private var birdView: ImageView? = null
     private var monkeyView: ImageView? = null
+    private var catView: ImageView? = null
+    private var foxView: ImageView? = null
+    private var deerView: ImageView? = null
+    private var whiteCatView: ImageView? = null
     private var textView: TextView? = null
     private var contentView: ViewGroup? = null
     private var startAnimationButton: Button? = null
@@ -120,23 +137,130 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
+        // make the cat view
+        catView = ImageView(this@MainActivity)
+        catView!!.setImageResource(R.drawable.cat_animation)
+        //catView.setBackgroundResource(R.drawable.cat_animation);
+        catView!!.setOnTouchListener { _: View?, event: MotionEvent ->
+            // TODO Auto-generated method stub
+            Log.i("imageviewandontouchlistener", "imageView1 onTouch")
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                catMover!!.cancel()
+                catMover!!.end()
+                return@setOnTouchListener true
+            }
+            false
+        }
+
+        // make the fox view
+        foxView = ImageView(this@MainActivity)
+        foxView!!.setImageResource(R.drawable.fox_animation)
+        //foxView.setBackgroundResource(R.drawable.fox_animation);
+        foxView!!.setOnTouchListener { _: View?, event: MotionEvent ->
+            // TODO Auto-generated method stub
+            Log.i("imageviewandontouchlistener", "imageView1 onTouch")
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                foxMover!!.cancel()
+                foxMover!!.end()
+                return@setOnTouchListener true
+            }
+            false
+        }
+
+        // make the deer view
+        deerView = ImageView(this@MainActivity)
+        deerView!!.setImageResource(R.drawable.deer_animation)
+        //deerView.setBackgroundResource(R.drawable.deer_animation);
+        deerView!!.setOnTouchListener { _: View?, event: MotionEvent ->
+            // TODO Auto-generated method stub
+            Log.i("imageviewandontouchlistener", "imageView1 onTouch")
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                deerMover!!.cancel()
+                deerMover!!.end()
+                return@setOnTouchListener true
+            }
+            false
+        }
+
+        // make the whiteCat view
+        whiteCatView = ImageView(this@MainActivity)
+        whiteCatView!!.setImageResource(R.drawable.white_cat_animation)
+        //whiteCatView.setBackgroundResource(R.drawable.whiteCat_animation);
+        whiteCatView!!.setOnTouchListener { _: View?, event: MotionEvent ->
+            // TODO Auto-generated method stub
+            Log.i("imageviewandontouchlistener", "imageView1 onTouch")
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                whiteCatMover!!.cancel()
+                whiteCatMover!!.end()
+                return@setOnTouchListener true
+            }
+            false
+        }
+
         bugAnimation = bugView!!.drawable as AnimationDrawable
         mothAnimation = mothView!!.drawable as AnimationDrawable
         birdAnimation = birdView!!.drawable as AnimationDrawable
         monkeyAnimation = monkeyView!!.drawable as AnimationDrawable
+        catAnimation = catView!!.drawable as AnimationDrawable
+        foxAnimation = foxView!!.drawable as AnimationDrawable
+        deerAnimation = deerView!!.drawable as AnimationDrawable
+        whiteCatAnimation = whiteCatView!!.drawable as AnimationDrawable
         textView = TextView(this@MainActivity)
         textView!!.text = "0"
-        contentView!!.addView(textView)
+        /*contentView!!.addView(textView)
         contentView!!.addView(bugView)
         contentView!!.addView(mothView)
         contentView!!.addView(birdView)
         contentView!!.addView(monkeyView)
+        contentView!!.addView(catView)
+        contentView!!.addView(foxView)
+        contentView!!.addView(whiteCatView)*/
 
         // get screen dimensions
         val width = baseContext.resources.displayMetrics.widthPixels
         val height = baseContext.resources.displayMetrics.heightPixels
-        Log.e("Width", "" + width)
-        Log.e("height", "" + height)
+        Log.i("Width", "" + width)
+        Log.i("height", "" + height)
+
+        val gridLayout = GridLayout(applicationContext)
+        val total: Int = 8
+        val column = 2
+        val row = total / column
+        gridLayout.alignmentMode = GridLayout.ALIGN_BOUNDS
+        gridLayout.columnCount = column
+        gridLayout.rowCount = row + 1
+
+        val param: GridLayout.LayoutParams = GridLayout.LayoutParams()
+        param.height = GridLayout.LayoutParams.WRAP_CONTENT
+        param.width = GridLayout.LayoutParams.WRAP_CONTENT
+        param.rightMargin = 5
+        param.topMargin = 5
+        param.setGravity(Gravity.CENTER)
+        param.columnSpec = GridLayout.spec(column)
+        param.rowSpec = GridLayout.spec(row)
+
+        with(gridLayout) {
+//            param.height = GridLayout.LayoutParams.WRAP_CONTENT
+//            param.width = GridLayout.LayoutParams.WRAP_CONTENT
+//            param.rightMargin = 5
+//            param.topMargin = 5
+//            param.setGravity(Gravity.CENTER)
+//            param.columnSpec = GridLayout.spec(column)
+//            param.rowSpec = GridLayout.spec(row)
+
+            addView(bugView)
+            addView(mothView)
+            addView(birdView)
+            addView(monkeyView)
+            addView(catView)
+            addView(foxView)
+            addView(deerView)
+            addView(whiteCatView)
+        }
+
+        contentView!!.addView(textView)
+        contentView!!.addView(gridLayout)
+
 
         //start bug animation
         if (bugAnimation!!.isRunning) bugAnimation!!.stop() else {
@@ -184,13 +308,78 @@ class MainActivity : AppCompatActivity() {
             // monkeyAnimation.start();
         }
 
+        //start cat animation
+        if (catAnimation!!.isRunning) catAnimation!!.stop() else {
+            catMover = ObjectAnimator.ofFloat(catView, "translationX", 500f)
+
+            /*catMover = ObjectAnimator.ofFloat(catView, "translationX", 500f).apply {
+                addUpdateListener { updateAnimation ->
+                    catView!!.translationY = updateAnimation.animatedValue as Float
+            }*/
+
+            catMover?.duration = 1000
+            catMover?.repeatCount = ValueAnimator.RESTART
+            catMover?.repeatMode = ValueAnimator.REVERSE
+            //catMover.start();
+            // catAnimation.start();
+        }
+
+        //start fox animation
+        if (foxAnimation!!.isRunning) foxAnimation!!.stop() else {
+            foxMover = ObjectAnimator.ofFloat(foxView, "translationX", 500f)
+
+            /*foxMover = ObjectAnimator.ofFloat(foxView, "translationX", 500f).apply {
+                addUpdateListener { updateAnimation ->
+                    foxView!!.translationY = updateAnimation.animatedValue as Float
+            }*/
+
+            foxMover?.duration = 1000
+            foxMover?.repeatCount = ValueAnimator.RESTART
+            foxMover?.repeatMode = ValueAnimator.REVERSE
+            //foxMover.start();
+            // foxAnimation.start();
+        }
+
+        //start deer animation
+        if (deerAnimation!!.isRunning) deerAnimation!!.stop() else {
+            deerMover = ObjectAnimator.ofFloat(deerView, "translationX", 500f)
+
+            /*deerMover = ObjectAnimator.ofFloat(deerView, "translationX", 500f).apply {
+                addUpdateListener { updateAnimation ->
+                    deerView!!.translationY = updateAnimation.animatedValue as Float
+            }*/
+
+            deerMover?.duration = 1000
+            deerMover?.repeatCount = ValueAnimator.RESTART
+            deerMover?.repeatMode = ValueAnimator.REVERSE
+            //deerMover.start();
+            // deerAnimation.start();
+        }
+
+        //start whiteCat animation
+        if (whiteCatAnimation!!.isRunning) whiteCatAnimation!!.stop() else {
+            whiteCatMover = ObjectAnimator.ofFloat(whiteCatView, "translationY", 500f)
+
+            /*whiteCatMover = ObjectAnimator.ofFloat(whiteCatView, "translationX", 500f).apply {
+                addUpdateListener { updateAnimation ->
+                    whiteCatView!!.translationY = updateAnimation.animatedValue as Float
+            }*/
+
+            whiteCatMover?.duration = 1000
+            whiteCatMover?.repeatCount = ValueAnimator.RESTART
+            whiteCatMover?.repeatMode = ValueAnimator.REVERSE
+            //whiteCatMover.start();
+            // whiteCatAnimation.start();
+        }
+
         // group the animators inot an AnimationSet
         val set = AnimatorSet()
-        set.playTogether(bugMover, mothMover, birdMover, monkeyMover)
+        set.playTogether(bugMover, mothMover, birdMover, monkeyMover, catMover,
+            foxMover, deerMover, whiteCatMover)
         set.start()
 
         //count from  0 to  100
-        val animator = ValueAnimator.ofInt(500, 0)
+        val animator = ValueAnimator.ofInt(5000, 0)
         animator.reverse() // count down
         //do it 1000  milliseconds
         animator.duration = 1000
@@ -207,7 +396,13 @@ class MainActivity : AppCompatActivity() {
                 bugAnimation!!.stop()
                 birdAnimation!!.stop()
                 monkeyAnimation!!.stop()
-                if (!mothAnimation!!.isRunning && !bugAnimation!!.isRunning && !birdAnimation!!.isRunning) {
+                catAnimation!!.stop()
+                foxAnimation!!.stop()
+                deerAnimation!!.stop()
+                whiteCatAnimation!!.stop()
+                if (!mothAnimation!!.isRunning && !bugAnimation!!.isRunning && !birdAnimation!!.isRunning
+                    && !monkeyAnimation!!.isRunning && !catAnimation!!.isRunning && !foxAnimation!!.isRunning
+                    && !deerAnimation!!.isRunning && !whiteCatAnimation!!.isRunning) {
                     Toast.makeText(this@MainActivity, "Game Over - You Won!", Toast.LENGTH_LONG).show()
                 } else {
                     Toast.makeText(this@MainActivity, "Game Over - You Lost", Toast.LENGTH_LONG).show()
